@@ -17,7 +17,7 @@ fi
 
 # 切换到指定的 commit
 echo "正在切换到指定版本..."
-cd stsource && git checkout 938c8a9a364919433ac1cb0e6d82710116dabf86
+cd stsource && git reset --hard  1.12.12
 
 if [ $? -ne 0 ]; then
     echo "切换版本失败"
