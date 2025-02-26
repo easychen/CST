@@ -55,7 +55,7 @@ router.post('/', async (req, res) => {
         const sslParams = getSSLParams();
 
         // 使用 PM2 启动游戏实例
-        const info1 = await execAsync(`cd ${sourceDir} && pm2 start server.js --name ${instanceName} -- --port ${port} --dataRoot ${dataDir} --listen true --listenAddressIPv4 0.0.0.0  --whitelistMode false --basicAuthMode true --basicAuthUserName ${instanceName} --basicAuthUserPassword ${password} --enableUserAccounts true --enableDiscreetLogin true --autorun false ${sslParams}`);
+        const info1 = await execAsync(`cd ${sourceDir} && pm2 start server.js --name ${instanceName} -- --port ${port} --dataRoot ${dataDir} --listen true --listenAddressIPv4 0.0.0.0  --whitelist false --basicAuthMode true --basicAuthUserName ${instanceName} --basicAuthUserPassword ${password} --autorun false ${sslParams}`);
 
         // console.log(info1);
 
@@ -141,7 +141,7 @@ router.post('/:id/reset-password', async (req, res) => {
         const sslParams = getSSLParams();
 
         // 使用新密码重启游戏实例
-        await execAsync(`cd ${sourceDir} && pm2 start server.js --name ${instanceName} -- --port ${port} --dataRoot ${dataDir} --listen true --listenAddressIPv4 0.0.0.0 --whitelistMode false --basicAuthMode true --basicAuthUserName ${instanceName} --basicAuthUserPassword ${password} --enableUserAccounts true --enableDiscreetLogin true --autorun false ${sslParams}`);
+        await execAsync(`cd ${sourceDir} && pm2 start server.js --name ${instanceName} -- --port ${port} --dataRoot ${dataDir} --listen true --listenAddressIPv4 0.0.0.0 --whitelist false --basicAuthMode true --basicAuthUserName ${instanceName} --basicAuthUserPassword ${password} --autorun false ${sslParams}`);
 
         res.json({
             id: instanceName,
