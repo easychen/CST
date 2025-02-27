@@ -2,6 +2,10 @@
 
 [English Documentation](README.md)
 
+![](2025-02-27-12-36-59.png)
+
+![](2025-02-27-12-37-32.png)
+
 ## 项目简介
 
 ChainSillyTavern 是一个SillyTavern酒馆多实例管理系统，用于创建、管理和监控多个SillyTavern酒馆服务器实例。系统提供了 RESTful API 接口和现代化的管理界面，支持实例的创建、停止和删除等操作。
@@ -13,6 +17,10 @@ API2D.com是知名AI接口服务平台，支持中国大陆直连、微信和银
 
 ## 授权
 本项目采用 AGPL-3.0 许可证。
+
+## 视频教程
+
+[B站](https://www.bilibili.com/video/BV1E9Pje1ENw) | [Youtube](https://youtu.be/df_e8oUPe-0?si=S31jdo-JLvl-6XrS) 
 
 ## 快速开始
 

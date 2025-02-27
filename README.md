@@ -2,6 +2,10 @@
 
 [中文文档](README-zh.md)
 
+![](2025-02-27-12-36-27.png)
+
+![](2025-02-27-12-36-06.png)
+
 ## Introduction
 
 ChainSillyTavern is a SillyTavern instance management system designed for creating, managing, and monitoring multiple SillyTavern server instances. The system provides RESTful API interfaces and a modern management interface, supporting operations such as instance creation, stopping, and deletion.
