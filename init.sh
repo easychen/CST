@@ -41,4 +41,4 @@ fi
 
 # 运行 npm
 echo "初始化并启动服务"
-cd stsource && npm install && cd ../cst && npm install && cd ../factory-api && npm install && npm run build && npm run start &
+cd stsource && npm install && cd ../cst && npm install && cd ../factory-api && npm install && npm run build && pm2 start src/index.js
