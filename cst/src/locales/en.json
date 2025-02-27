@@ -1,0 +1,38 @@
+{
+  "title": "Chain SillyTavern",
+  "adminKey": "Admin Key",
+  "login": "Login",
+  "logout": "Logout",
+  "instanceManagement": "Tavern Instance Management",
+  "createNewInstance": "Create New Instance",
+  "port": "Port",
+  "portPlaceholder": "Enter port number (e.g. 8001)",
+  "creating": "Creating...",
+  "create": "Create Instance",
+  "instanceList": "Instance List",
+  "status": "Status",
+  "backup": "Backup",
+  "resetPassword": "Reset Password",
+  "delete": "Delete",
+  "confirmDelete": "Are you sure you want to delete this instance? This action cannot be undone. It is recommended to backup before deletion.",
+  "confirmResetPassword": "Are you sure you want to reset the password for this instance?",
+  "instanceAccount": "Instance Account",
+  "username": "Username",
+  "password": "Password",
+  "passwordWarning": "This password will only be shown once, please keep it safe",
+  "copyPassword": "Copy Password",
+  "saveAsTxt": "Save as TXT",
+  "close": "Close",
+  "errors": {
+    "fetchInstancesFailed": "Failed to fetch instance list",
+    "serverConnectionFailed": "Failed to connect to server",
+    "adminKeyInvalid": "Invalid admin key",
+    "createInstanceFailed": "Failed to create instance, please check if the port is in use",
+    "resetPasswordFailed": "Failed to reset password",
+    "deleteInstanceFailed": "Failed to delete instance",
+    "copyFailed": "Copy failed, please copy manually"
+  },
+  "success": {
+    "passwordCopied": "Password copied to clipboard"
+  }
+} 

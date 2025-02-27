@@ -1,0 +1,38 @@
+{
+  "title": "CST联锁酒馆管理系统",
+  "adminKey": "管理员密钥",
+  "login": "登录",
+  "logout": "退出登录",
+  "instanceManagement": "酒馆实例管理",
+  "createNewInstance": "创建新实例",
+  "port": "端口号",
+  "portPlaceholder": "请输入端口号（如：8001）",
+  "creating": "创建中...",
+  "create": "创建实例",
+  "instanceList": "实例列表",
+  "status": "状态",
+  "backup": "备份",
+  "resetPassword": "重置密码",
+  "delete": "删除",
+  "confirmDelete": "确定要删除此实例吗？此操作不可恢复。建议删除前先进行备份。",
+  "confirmResetPassword": "确定要重置此实例的密码吗？",
+  "instanceAccount": "实例账号",
+  "username": "用户名",
+  "password": "密码",
+  "passwordWarning": "此密码只显示一次，请妥善保管",
+  "copyPassword": "复制密码",
+  "saveAsTxt": "保存为txt",
+  "close": "关闭",
+  "errors": {
+    "fetchInstancesFailed": "获取实例列表失败",
+    "serverConnectionFailed": "连接服务器失败",
+    "adminKeyInvalid": "管理员密钥验证失败",
+    "createInstanceFailed": "创建实例失败, 请检查端口是否被占用",
+    "resetPasswordFailed": "重置密码失败",
+    "deleteInstanceFailed": "删除实例失败",
+    "copyFailed": "复制失败，请手动复制"
+  },
+  "success": {
+    "passwordCopied": "密码已复制到剪贴板"
+  }
+} 

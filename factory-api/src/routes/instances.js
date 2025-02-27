@@ -8,8 +8,35 @@ import { v4 as uuidv4 } from 'uuid';
 import archiver from 'archiver';
 import fs from 'fs';
 import { existsSync } from 'fs';
+import { messages } from '../i18n/messages.js';
 
 const execAsync = promisify(exec);
+
+// 获取请求的语言
+const getLanguage = (req) => {
+    // 优先使用查询参数中的语言
+    if (req.query.lang && messages[req.query.lang]) {
+        return req.query.lang;
+    }
+    // 其次使用 Accept-Language 头
+    const acceptLanguage = req.get('Accept-Language');
+    if (acceptLanguage && acceptLanguage.startsWith('zh')) {
+        return 'zh';
+    }
+    // 默认使用英语
+    return 'en';
+};
+
+// 获取对应语言的消息
+const getMessage = (req, path) => {
+    const lang = getLanguage(req);
+    const pathParts = path.split('.');
+    let message = messages[lang];
+    for (const part of pathParts) {
+        message = message[part];
+    }
+    return message;
+};
 
 // 检查SSL证书是否存在并返回SSL参数
 const getSSLParams = () => {
@@ -17,12 +44,12 @@ const getSSLParams = () => {
     const keyPath = join(__dirname, '..', '..', 'certs', 'privkey.pem');
     let command = '';
     
-    
     if (existsSync(certPath) && existsSync(keyPath)) {
         command = ` --ssl=true --certPath=${certPath} --keyPath=${keyPath}`;
     }
     return command;
 };
+
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -33,7 +60,7 @@ router.post('/', async (req, res) => {
         const { port } = req.body;
         
         if (!port) {
-            return res.status(400).json({ error: '缺少必要参数' });
+            return res.status(400).json({ error: getMessage(req, 'errors.missingParams') });
         }
 
         // 设置数据目录为 user-data/port
@@ -45,7 +72,7 @@ router.post('/', async (req, res) => {
         try {
             const { stdout } = await execAsync(`pm2 show ${instanceName} -s`);
             if (stdout.includes('online')) {
-                return res.status(400).json({ error: '端口已被占用' });
+                return res.status(400).json({ error: getMessage(req, 'errors.portInUse') });
             }
         } catch (error) {
             // 实例不存在，可以继续创建
@@ -56,8 +83,6 @@ router.post('/', async (req, res) => {
 
         // 使用 PM2 启动游戏实例
         const info1 = await execAsync(`cd ${sourceDir} && pm2 start server.js --name ${instanceName} -- --port ${port} --dataRoot ${dataDir} --listen true --listenAddressIPv4 0.0.0.0  --whitelist false --basicAuthMode true --basicAuthUserName ${instanceName} --basicAuthUserPassword ${password} --autorun false ${sslParams}`);
-
-        // console.log(info1);
 
         // 获取实例信息
         const { stdout: info } = await execAsync(`pm2 show ${instanceName} -s`);
@@ -73,7 +98,7 @@ router.post('/', async (req, res) => {
         });
     } catch (error) {
         console.error('创建实例失败:', error);
-        res.status(500).json({ error: '创建实例失败' });
+        res.status(500).json({ error: getMessage(req, 'errors.createInstanceFailed') });
     }
 });
 
@@ -81,7 +106,6 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const { stdout } = await execAsync('pm2 jlist -s');
-        // console.log("stdout", stdout);
         const processes = JSON.parse(stdout);
         const instances = processes
             .filter(proc => proc.name.startsWith('st-instance-'))
@@ -94,7 +118,7 @@ router.get('/', async (req, res) => {
         res.json(instances);
     } catch (error) {
         console.error('获取实例列表失败:', error);
-        res.status(500).json({ error: '获取实例列表失败' });
+        res.status(500).json({ error: getMessage(req, 'errors.instanceNotFound') });
     }
 });
 
@@ -107,10 +131,10 @@ router.post('/:id/stop', async (req, res) => {
         try {
             const { stdout } = await execAsync(`pm2 show ${instanceName} -s`);
             if (!stdout.includes('online')) {
-                return res.status(400).json({ error: '实例未在运行' });
+                return res.status(400).json({ error: getMessage(req, 'errors.instanceNotRunning') });
             }
         } catch (error) {
-            return res.status(404).json({ error: '实例不存在' });
+            return res.status(404).json({ error: getMessage(req, 'errors.instanceNotFound') });
         }
 
         // 停止实例
@@ -123,7 +147,7 @@ router.post('/:id/stop', async (req, res) => {
         });
     } catch (error) {
         console.error('停止实例失败:', error);
-        res.status(500).json({ error: '停止实例失败' });
+        res.status(500).json({ error: getMessage(req, 'errors.stopInstanceFailed') });
     }
 });
 
@@ -149,7 +173,7 @@ router.post('/:id/reset-password', async (req, res) => {
         });
     } catch (error) {
         console.error('重置密码失败:', error);
-        res.status(500).json({ error: '重置密码失败' });
+        res.status(500).json({ error: getMessage(req, 'errors.resetPasswordFailed') });
     }
 });
 
@@ -165,14 +189,12 @@ router.delete('/:id', async (req, res) => {
         // 删除数据目录
         await execAsync(`rm -rf "${dataDir}"`);
 
-        res.json({ message: '实例已删除' });
+        res.json({ message: getMessage(req, 'success.instanceDeleted') });
     } catch (error) {
         console.error('删除实例失败:', error);
-        res.status(500).json({ error: '删除实例失败' });
+        res.status(500).json({ error: getMessage(req, 'errors.deleteInstanceFailed') });
     }
 });
-
-
 
 const unlinkAsync = promisify(fs.unlink);
 
@@ -221,7 +243,7 @@ router.get('/:id/backup', async (req, res) => {
         });
     } catch (error) {
         console.error('创建备份失败:', error);
-        res.status(500).json({ error: '创建备份失败' });
+        res.status(500).json({ error: getMessage(req, 'errors.createBackupFailed') });
     }
 });
 
