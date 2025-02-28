@@ -1,6 +1,6 @@
 # ChainSillyTavern (CST联锁酒馆)
 
-[English Documentation](README.md)
+[English Documentation](README.md) | [日本語ドキュメント](README-ja.md)
 
 ![](2025-02-27-12-36-59.png)
 

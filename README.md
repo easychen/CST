@@ -1,6 +1,6 @@
 # ChainSillyTavern
 
-[中文文档](README-zh.md)
+[中文文档](README-zh.md) | [日本語ドキュメント](README-ja.md)
 
 ![](2025-02-27-12-36-27.png)
 
@@ -230,4 +230,3 @@ curl -X POST http://localhost:3000/api/instances/st-instance-8001/stop \
 curl -X DELETE http://localhost:3000/api/instances/st-instance-8001 \
      -H "X-ST-Admin-Key: your-secret-admin-key"
 ```
-
